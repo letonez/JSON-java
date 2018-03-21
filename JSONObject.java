@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -207,7 +208,24 @@ public class JSONObject {
      *             duplicated key.
      */
     public JSONObject(JSONTokener x) throws JSONException {
-        this();
+        if (x instanceof JSONTokenerExt) {
+            this.map = ((JSONTokenerExt) x).createJSONObjectBackingMap();
+        } else {
+            this.map = new HashMap<>();
+        }
+        this.populateMap(x);
+    }
+
+    /**
+     * Populate a JSONObject from a JSONTokener.
+     *
+     * @param x
+     *            A JSONTokener object containing the source string.
+     * @throws JSONException
+     *             If there is a syntax error in the source string or a
+     *             duplicated key.
+     */
+    private void populateMap(JSONTokener x) throws JSONException {
         char c;
         String key;
 

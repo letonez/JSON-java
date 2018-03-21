@@ -4,3 +4,6 @@
 # ignore Intellij Idea project files
 .idea
 *.iml
+/.gradle/
+/build/
+/bin/
